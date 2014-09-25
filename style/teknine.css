@@ -1,6 +1,6 @@
 @media screen and (min-width:1200px)
 {
-	#main-article {
+	#articles {
 		font-size: 1.2em;
 	}
 }
@@ -33,7 +33,7 @@ h1, h2, h3, h4, h5, h6 {
 	font-weight: normal;
 }
 
-#main-header {
+#site-header {
 	flex: 0 1 auto;
 	background: #fff;
 	margin: 1em auto;
@@ -43,7 +43,7 @@ h1, h2, h3, h4, h5, h6 {
 	align-content: center;
 	justify-content: space-between;
 }
-#main-header nav {
+#site-header nav {
 	flex: 1 0 auto;
 	background: #fff;
 	display: flex;
@@ -53,14 +53,14 @@ h1, h2, h3, h4, h5, h6 {
 	justify-content: flex-end;
 	line-height: 5em;
 }
-#main-header a {
+#site-header a {
 	display: inline-block;
 	margin: 0 0.5em;
 }
-#main-header a:first-child {
+#site-header a:first-child {
 	margin-left: 0;
 }
-#main-header a:last-child {
+#site-header a:last-child {
 	margin-right: 0;
 }
 
@@ -82,25 +82,27 @@ header a {
 header a:hover {
 	border-color: #866dac;
 }
-.banner {
+#site-banner {
 	flex: 2 1 auto;
 	background: #6f5499 linear-gradient(to bottom, #563d7c, #6f5499) repeat-x;
     color: #cdbfe3;
+    padding:1em 0;
 }
-.banner .container {
+#site-banner .container {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
 	justify-content: space-between;
 }
-article {
+#articles {
 	flex: 3 0 auto;
-	margin: 1em auto;
+	margin: 2em auto;
 	background: #fefefe;
-	padding: 1em 0;
-	font-size:0.9em;
+	font-size: 0.9em;
 }
-footer {
+#articles article {
+}
+#site-footer {
 	flex: 1 0 auto;
 	background: #eee;
 	background-image: linear-gradient(to bottom, #eee, #f4f4f4);
