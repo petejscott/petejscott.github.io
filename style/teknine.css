@@ -116,3 +116,15 @@ header a:hover {
 	border-top: 1px solid #ddd;
 	box-shadow: inset 2px 0 0.15em rgba(0,0,0,0.1);
 }
+
+fieldset {
+	border-width:0;
+	font-size:1.5em;
+}
+input { font-size:1em; }
+form#login fieldset {
+	display:inline-block;
+}
+form#login label, input {
+	padding:0.25em 0.5em;
+}

@@ -1,4 +1,0 @@
-; rename to config.ini
-
-article_directory = "articles"
-publish_password  = "my super secret password"

@@ -22,26 +22,15 @@
 		</div>
 	</aside>
 	<div id="articles" class="container">
-		<?php
-		
-		require_once("cms/Application.php");
-		require_once("cms/Bootstrap.php");
-		
-		$app = new Application();
-		$boot = new Bootstrap($app);
-		$boot->Run();
-		
-		$fileReader = new FileReader();
-		$files = $fileReader->GetFilenames($app->GetArticleDirectory());
-		foreach($files as $file)
-		{
-			$article = new Article("articles/$file", $fileReader);
-			echo '<article id="article-'.$file.'">';
-			echo $article->GetContents();
-			echo '</article>';
-		}
-		
-		?>
+		<form id="login" method="post" action="test.php">
+			<fieldset>
+				<label for="password">Password</label>
+				<input type="password" name="password" placeholder="password" />
+			</fieldset>
+			<fieldset>
+				<input type="submit" value="Authenticate" />
+			</fieldset>
+		</form>
 	</div>
 	<footer id="site-footer">
 		<p>&copy; copyright 2014 teknine.com</p>
