@@ -68,8 +68,8 @@ header hgroup {
 	line-height: 1.5em;
 	font-size: 0.75em;
 }
-header hgroup h1,
-header hgroup h2 {
+header h1,
+header h2 {
 	margin:0;
 }
 header a {
@@ -81,6 +81,11 @@ header a {
 }
 header a:hover {
 	border-color: #866dac;
+}
+header p {
+	font-size:0.9em;
+	color: #666;
+	margin: 0;
 }
 #site-banner {
 	flex: 2 1 auto;
