@@ -1,0 +1,130 @@
+<!-- copyright 2014 teknine.com -->
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="theme-color" content="#0466a9">
+	<meta http-equiv="cache-control" content="no-cache, max-age=0" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+	<title>teknine.com</title>
+	
+	<link href='http://fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
+	<style>
+		@media screen and (min-width: 1024px) {
+			hgroup h1, hgroup h2 { font-size: 4rem; }
+		}
+		body { 
+			margin: 0; 
+			padding: 0; 
+			background: #738a7f; 
+			color: #fff; 
+			font-family: "Roboto", Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT",
+					"Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L",
+					Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+			transition: background 1s;
+		}
+		body.blue {
+			background-color: #738a7f;
+		}
+		body.green { 
+			background-color: #74916F;
+		}
+		body.bluegreen {	
+			background-color: #49725F;
+		}
+		main, article { 
+			width: 80vw;
+			height: 100vh;
+			box-sizing: border-box;
+			margin: 0 auto;
+			padding: 8vw 0;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+			align-items: flex-start;
+			transition: height 0.25s;
+		}
+		section {
+			flex-grow: 0;
+			flex-shrink: 1;
+		}
+		header {
+			flex-grow: 1;
+			flex-shrink: 1;
+			margin: 0;
+		}
+		h1, h2 { 
+			margin: 0; 
+			font-weight: 300;
+			transition: font-size 0.25s;
+		}
+		h1 {
+			font-size: 2.8rem; 
+			}
+		h2 { 
+			font-size: 2.4rem; 
+			line-height: 2.8rem;
+			color: rgba(255,255,255,0.6);
+		}
+		nav {
+			flex-grow: 0;
+			align-self: flex-end;
+		}
+		a { 
+			color: #fff;
+			color: rgba(255,255,255,0.6);
+			text-decoration: none;
+			display: inline-block;
+			transition: color 0.25s, border 0.25s;
+			outline: 0;
+			border-bottom: 1px dotted rgba(255,255,255,0.5);
+		}
+		nav a {
+			margin-left: 1rem;
+			padding: 0.25rem;
+			font-size: 1.6rem;
+			border-bottom: 0;
+		}
+		a:hover {
+			color: #fff;
+			-webkit-tap-highlight-color: rgba(255,255,255,0);
+		}
+	</style>	
+	<link rel="stylesheet" href="css/fontello.css" />
+</head>
+<body>
+	<main class="snappable">
+		<header>
+			<hgroup>
+				<h1>teknine.com</h1>
+				<h2>the teknine project</h2>
+			</hgroup>
+		</header>
+		<nav>
+			<a href="https://twitter.com/kyofu"><i  class="icon-twitter" title="@kyofu on twitter"></i></a>
+			<a href="https://github.com/petejscott"><i  class="icon-github" title="petejscott at github"></i></a>
+		</nav>
+	</main>
+	<article id="projects" class="snappable">
+		<header>
+			<h1>Projects</h1>
+		</header>
+		<section>
+			<h2><a href="http://teknine.com/projects/wordScramble/src/">WordScramble</a></h2>
+			<p>WordScramble is a word-finding game written in JavaScript with a focus on mobile devices. Its <a href="https://github.com/petejscott/wordScramble">source</a> is hosted on github and you can play on its <a href="http://teknine.com/projects/wordScramble/src/">development demo</a>.</p>
+		</section>
+	</article>
+	<article id="bio">
+		<header>
+			<h1>Hello!</h1>
+		</header>
+		<p>I'm <a href="https://cosine.teknine.com/info">Pete Scott</a>, a web enthusiast. You can find me on Twitter as <a href="https://twitter.com/kyofu"><i  class="icon-twitter" title="@kyofu on twitter">@kyofu</i></a> and on Github as <a href="https://github.com/petejscott"><i  class="icon-github" title="petejscott at github">petejscott</i></a>.</p><p>There's no point to this site at all; I've owned it for a long time and it just sort of comes and goes as my mood changes. My current plan is to use it as a pointer to whatever projects I actually make some headway on, so here's hoping it sees a lot of attention from me.</p>
+		<footer>
+			<small><a rel="license" href="https://github.com/petejscott/teknine.com/blob/master/LICENSE.txt">&copy; 2014 teknine.com</a></small>
+		</footer>
+	</article>
+	
+	<script type="text/javascript" src="js/scrollSnap.js"></script>
+</body>
+</html>

@@ -1,8 +1,0 @@
-<?php
-
-// rename to config.php
-
-$article_directory = "articles";
-$publish_password  = "my super secret password";
-
-?>
