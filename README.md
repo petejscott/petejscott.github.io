@@ -1,4 +1,4 @@
 teknine.com
 ===========
 
-teknine.com website. Mostly built using styles from bootstrap thrown into a flexbox layout.
+teknine.com website. Nothing special. Feel free to modify it pursuant to the terms of the BSD license, though.
