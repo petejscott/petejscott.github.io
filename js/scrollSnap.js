@@ -23,17 +23,22 @@
 		return { 'x' : left, 'y' : top };
 	}
 	
-	function snapToViewport(targetViewport)
-	{
-		easedScroll(getScrollData().y,  targetViewport);		
-	}
+	var scrollAction = {};
 	
-	function easedScroll(currentY, targetViewport)
+	function snapToViewport(targetViewport)
 	{
 		if (obj.scrollLock) return;				
 		obj.scrollLock = true;
 		
-		currentY = Math.floor(currentY);
+		scrollAction.currentY = getScrollData().y;
+		scrollAction.targetViewport = targetViewport;		
+		scrollAction.animateId = requestAnimationFrame(easedScroll2);
+	}
+	
+	function easedScroll2()
+	{
+		var currentY = scrollAction.currentY;
+		var targetViewport = scrollAction.targetViewport;
 		var targetY = Math.floor(obj.viewportSize * targetViewport);
 		
 		// how far away are we from the target?
@@ -46,31 +51,35 @@
 
 		// a negative diff means we want to scroll up, 
 		// so subtract stepSize from currentY to get the new currentY
+		var newY = null;
 		if (diff < 0)
 		{
-			currentY = currentY - stepSize;
+			newY = currentY - stepSize;
 		}				
 		// a positive diff means we want to scroll down, 
 		// so add stepSize to currentY to get the new currentY
 		else if (diff > 0)
 		{
-			currentY = currentY + stepSize;
+			newY = currentY + stepSize;
 		}
 		// exactly at zero, so update our location and stop
 		else 
 		{
+			//console.log("done: " + diff + "... targetY = " + targetY + " and currentY = " + currentY);
+			cancelAnimationFrame(scrollAction.animateId);
+			//console.log(scrollAction);
+			scrollAction = {};
+			
 			obj.currentViewport = targetViewport;
 			obj.scrollLock = false;
 			return;
 		}
 		
 		// actually scroll
-		window.scrollTo(0, currentY);
-		// and set a 1-tick timeout to recurse
-		window.setTimeout(function() {
-			obj.scrollLock = false;
-			easedScroll(currentY, targetViewport);
-		}, 1);
+		window.scrollTo(0, newY);
+		scrollAction.currentY = newY;
+		
+		scrollAction.animateId = requestAnimationFrame(easedScroll2);
 	}
 	
 	function animateViewport(targetViewport)
@@ -97,7 +106,6 @@
 	function scrollHandler(evt)
 	{
 		var targetViewport = getCurrentViewport();
-		
 		if (targetViewport !== obj.currentViewport) 
 		{
 			snapToViewport(targetViewport);
@@ -106,10 +114,16 @@
 		evt.preventDefault();
 	}
 	
+	function resizeHandler()
+	{
+		getHeights();
+		start();
+	}
+	
 	function bind()
 	{
 		window.addEventListener("scroll", scrollHandler);
-		window.addEventListener("resize", start);
+		window.addEventListener("resize", resizeHandler);
 	}
 	
 	function getCurrentViewport()
@@ -123,17 +137,18 @@
 		obj.viewportSize = window.innerHeight;
 		obj.documentSize = getDocumentSize();
 		obj.numViewports = Math.round(obj.documentSize / obj.viewportSize);	
-		obj.currentViewport = getCurrentViewport();			
+		obj.currentViewport = getCurrentViewport();
 	}
 	
 	function start()
 	{
-		getHeights();
 		animateViewport(obj.currentViewport);
 		snapToViewport(obj.currentViewport);
 	}
+	
 	function init()
-	{
+	{	
+		getHeights();
 		start();
 		bind();
 	}
