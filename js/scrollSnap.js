@@ -145,23 +145,26 @@
 	{
 		var currentY = getScrollData().y;
 		var viewportHeight = window.innerHeight;
-		var viewportCenter = currentY + (viewportHeight / 2);
+		var viewportBottom = currentY + viewportHeight;
 		
-		// Find which section we're currently in based on viewport center
+		// Find which section we're currently in
+		// We require at least 50% of the next section to be visible before snapping to it
 		for (var i = obj.snapPositions.length - 1; i >= 0; i--) {
-			// If the viewport center is past this snap position, we're in this section or later
-			if (viewportCenter >= obj.snapPositions[i]) {
-				// Check if we're closer to the next section
-				if (i < obj.snapPositions.length - 1) {
-					var distanceToThis = Math.abs(currentY - obj.snapPositions[i]);
-					var distanceToNext = Math.abs(currentY - obj.snapPositions[i + 1]);
-					
-					// Only snap to next if we're significantly closer to it (past 40% of the way)
-					var threshold = viewportHeight * 0.4;
-					if (currentY > obj.snapPositions[i] + threshold && distanceToNext < distanceToThis) {
-						return i + 1;
-					}
+			var sectionStart = obj.snapPositions[i];
+			
+			// Check if the next section is at least 50% visible
+			if (i < obj.snapPositions.length - 1) {
+				var nextSectionStart = obj.snapPositions[i + 1];
+				var nextSectionVisible = viewportBottom - nextSectionStart;
+				
+				// If next section is more than 50% visible, snap to it
+				if (nextSectionVisible > viewportHeight * 0.5) {
+					return i + 1;
 				}
+			}
+			
+			// If current section start is above or at current scroll position
+			if (sectionStart <= currentY) {
 				return i;
 			}
 		}
