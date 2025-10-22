@@ -8,7 +8,6 @@
 	obj.currentViewport = null;
 	obj.scrollLock = false;
 	var lastScrollY = 0;
-	var scrollTimeout = null;
 	
 	function getScrollData()
 	{
@@ -109,11 +108,6 @@
 		var currentY = getScrollData().y;
 		var currentSection = getCurrentViewport();
 		
-		// Clear any existing timeout
-		if (scrollTimeout) {
-			clearTimeout(scrollTimeout);
-		}
-		
 		// Check if we're within a tall section
 		if (!shouldSnapSection(currentSection) && isWithinSection(currentSection, currentY)) {
 			// Don't snap while actively scrolling within a tall section
@@ -123,16 +117,14 @@
 			return;
 		}
 		
-		// Set a timeout to snap after user stops scrolling
-		scrollTimeout = setTimeout(function() {
-			var targetViewport = getCurrentViewport();
-			if (targetViewport !== obj.currentViewport) 
-			{
-				snapToViewport(targetViewport);
-				animateViewport(targetViewport);
-			}
-			lastScrollY = currentY;
-		}, 150); // Wait 150ms after scroll stops
+		// Snap immediately if changing sections
+		var targetViewport = getCurrentViewport();
+		if (targetViewport !== obj.currentViewport) 
+		{
+			snapToViewport(targetViewport);
+			animateViewport(targetViewport);
+		}
+		lastScrollY = currentY;
 		
 		evt.preventDefault();
 	}
