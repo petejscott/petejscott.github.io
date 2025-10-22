@@ -56,7 +56,7 @@
 		}
 		
 		// Configurable easing factor (0.1 = gentle, 0.2 = faster)
-		var easingFactor = 0.1;
+		var easingFactor = 0.15;
 		var stepSize = Math.max(1, absDiff * easingFactor);
 		
 		var newY = currentY + (diff > 0 ? stepSize : -stepSize);
