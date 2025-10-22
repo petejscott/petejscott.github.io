@@ -2,19 +2,10 @@
 ; (function(window) 
 {
 	var obj = {};
-	obj.viewportSize = 0;
-	obj.documentSize = 0;
-	obj.numViewports = 0;
+	obj.snappableElements = [];
+	obj.snapPositions = [];
 	obj.currentViewport = null;
 	obj.scrollLock = false;
-	
-	function getDocumentSize()
-	{
-		return Math.max(
-			document.documentElement.clientHeight,
-			document.documentElement.offsetHeight,
-			document.documentElement.scrollHeight);
-	}
 	
 	function getScrollData()
 	{
@@ -39,7 +30,7 @@
 	{
 		var currentY = scrollAction.currentY;
 		var targetViewport = scrollAction.targetViewport;
-		var targetY = obj.viewportSize * targetViewport;
+		var targetY = obj.snapPositions[targetViewport];
 		
 		var diff = targetY - currentY;
 		var absDiff = Math.abs(diff);
@@ -96,7 +87,7 @@
 	
 	function resizeHandler()
 	{
-		getHeights();
+		calculateSnapPositions();
 		start();
 	}
 	
@@ -108,16 +99,43 @@
 	
 	function getCurrentViewport()
 	{
-		var currentPos = getScrollData();
-		return Math.round(currentPos.y / obj.viewportSize);
+		var currentY = getScrollData().y;
+		var closestIndex = 0;
+		var closestDistance = Math.abs(currentY - obj.snapPositions[0]);
+		
+		for (var i = 1; i < obj.snapPositions.length; i++) {
+			var distance = Math.abs(currentY - obj.snapPositions[i]);
+			if (distance < closestDistance) {
+				closestDistance = distance;
+				closestIndex = i;
+			}
+		}
+		
+		return closestIndex;
 	}
 	
-	function getHeights()
+	function calculateSnapPositions()
 	{
-		obj.viewportSize = window.innerHeight;
-		obj.documentSize = getDocumentSize();
-		obj.numViewports = Math.round(obj.documentSize / obj.viewportSize);	
+		obj.snappableElements = document.querySelectorAll('.snappable');
+		obj.snapPositions = [];
+		
+		for (var i = 0; i < obj.snappableElements.length; i++) {
+			var element = obj.snappableElements[i];
+			var rect = element.getBoundingClientRect();
+			var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+			var position = rect.top + scrollTop;
+			obj.snapPositions.push(position);
+		}
+		
+		// Update current viewport after recalculation
+		var previousViewport = obj.currentViewport;
 		obj.currentViewport = getCurrentViewport();
+		
+		// If we're not at the same viewport after recalculation, don't auto-snap
+		// This prevents jumping when content dynamically loads
+		if (previousViewport !== null && previousViewport === obj.currentViewport) {
+			// We're still in the same section, don't snap
+		}
 	}
 	
 	function start()
@@ -128,10 +146,15 @@
 	
 	function init()
 	{	
-		getHeights();
+		calculateSnapPositions();
 		start();
 		bind();
 	}
+	
+	// Expose recalculate function for external use (e.g., after dynamic content loads)
+	window.scrollSnapRecalculate = function() {
+		calculateSnapPositions();
+	};
 	
 	init();
 	

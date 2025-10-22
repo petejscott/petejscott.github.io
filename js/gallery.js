@@ -95,6 +95,14 @@
             const galleryItem = createGalleryItem(photo, index);
             gallery.appendChild(galleryItem);
         });
+        
+        // Recalculate scroll snap positions after gallery is populated
+        if (typeof window.scrollSnapRecalculate === 'function') {
+            // Use setTimeout to ensure DOM has fully rendered
+            setTimeout(() => {
+                window.scrollSnapRecalculate();
+            }, 100);
+        }
     }
 
     /**

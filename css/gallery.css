@@ -1,17 +1,25 @@
 .gallery{
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: var(--gap);
+    gap: 0;
     list-style: none;
     padding:0;
-    margin: 1rem 0;
+    margin: 0;
 }
 
 .gallery-item{
-    background: white;
-    border-radius: 10px;
+    background: transparent;
+    border-radius: 0;
     overflow: hidden;
-    box-shadow: 0 1px 4px rgba(0,0,0,.06);
+    box-shadow: none;
+    margin: 0;
+    padding: 0;
+}
+
+.gallery-item figure {
+    margin: 0;
+    padding: 0;
+    display: block;
 }
 
 .gallery-item button {
@@ -28,13 +36,10 @@
     width:100%;
     height: auto;
     display:block;
-    vertical-align:middle;
 }
 
 figcaption{
-    padding: .5rem;
-    font-size: .9rem;
-    color:#333;
+    display: none;
 }
 
 /* Lightbox */
@@ -75,5 +80,5 @@ figcaption{
 :focus{ outline: 3px solid Highlight; outline-offset: 2px; }
 
 @media (min-width:900px){
-    .gallery{ gap: 1rem; }
+    .gallery{ gap: 0; }
 }
