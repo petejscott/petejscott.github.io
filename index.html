@@ -11,9 +11,6 @@
 	
 	<link href='http://fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
 	<style>
-		@media screen and (min-width: 1024px) {
-			hgroup h1, hgroup h2 { font-size: 4rem; }
-		}
 		body { 
 			margin: 0; 
 			padding: 0; 
@@ -35,12 +32,16 @@
 			left: 0;
 			right: 0;
 			bottom: 0;
-			background-image: url('img/backdrop/wide/back1.jpg');
+			background-image: url('img/backdrop/narrow/back2.jpg');
 			background-size: cover;
 			background-position: center;
 			background-repeat: no-repeat;
 			opacity: 0.2;
 			z-index: -2;
+		}
+		@media screen and (min-width: 1024px) {
+			hgroup h1, hgroup h2 { font-size: 4rem; }
+			.backdrop::before { background-image: url('img/backdrop/wide/back1.jpg'); }
 		}
 		.backdrop::after {
 			content: '';
