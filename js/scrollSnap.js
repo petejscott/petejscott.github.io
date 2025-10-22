@@ -32,74 +32,54 @@
 		
 		scrollAction.currentY = getScrollData().y;
 		scrollAction.targetViewport = targetViewport;		
-		scrollAction.animateId = requestAnimationFrame(easedScroll2);
+		scrollAction.animateId = requestAnimationFrame(easedScroll);
 	}
 	
-	function easedScroll2()
+	function easedScroll()
 	{
 		var currentY = scrollAction.currentY;
 		var targetViewport = scrollAction.targetViewport;
-		var targetY = Math.floor(obj.viewportSize * targetViewport);
+		var targetY = obj.viewportSize * targetViewport;
 		
-		// how far away are we from the target?
-		var diff = Math.floor(targetY - currentY);
+		var diff = targetY - currentY;
+		var absDiff = Math.abs(diff);
 		
-		// determine the step size
-		var stepSize = Math.floor(Math.abs(diff / 10));
-		// if we're within ten of the target, set stepSize to 1
-		if (Math.abs(diff) < 10) stepSize = 1;
-
-		// a negative diff means we want to scroll up, 
-		// so subtract stepSize from currentY to get the new currentY
-		var newY = null;
-		if (diff < 0)
-		{
-			newY = currentY - stepSize;
-		}				
-		// a positive diff means we want to scroll down, 
-		// so add stepSize to currentY to get the new currentY
-		else if (diff > 0)
-		{
-			newY = currentY + stepSize;
-		}
-		// exactly at zero, so update our location and stop
-		else 
-		{
-			//console.log("done: " + diff + "... targetY = " + targetY + " and currentY = " + currentY);
+		// Use a threshold to prevent infinite loops from floating-point precision
+		if (absDiff < 1) {
+			// Snap exactly to target and stop
+			window.scrollTo(0, targetY);
 			cancelAnimationFrame(scrollAction.animateId);
-			//console.log(scrollAction);
 			scrollAction = {};
-			
 			obj.currentViewport = targetViewport;
 			obj.scrollLock = false;
 			return;
 		}
 		
+		// Configurable easing factor (0.1 = gentle, 0.2 = faster)
+		var easingFactor = 0.1;
+		var stepSize = Math.max(1, absDiff * easingFactor);
+		
+		var newY = currentY + (diff > 0 ? stepSize : -stepSize);
+		
 		// actually scroll
 		window.scrollTo(0, newY);
 		scrollAction.currentY = newY;
 		
-		scrollAction.animateId = requestAnimationFrame(easedScroll2);
+		scrollAction.animateId = requestAnimationFrame(easedScroll);
 	}
 	
 	function animateViewport(targetViewport)
 	{
 		var body = document.querySelector("body");
-		body.classList.remove("green");
-		body.classList.remove("blue");
-		body.classList.remove("bluegreen");
+		var colorClasses = ["blue", "yellow", "green", "bluegreen"];
 		
-		if (targetViewport === 0)
-		{
-			document.querySelector("body").classList.add("blue");
-		}
-		else if (targetViewport === 1)
-		{
-			document.querySelector("body").classList.add("green");
-		}
-		else if (targetViewport === 2)
-		{			
-			document.querySelector("body").classList.add("bluegreen");
+		colorClasses.forEach(function(colorClass) {
+			body.classList.remove(colorClass);
+		});
+		
+		if (targetViewport >= 0) {
+			var colorIndex = targetViewport % colorClasses.length;
+			body.classList.add(colorClasses[colorIndex]);
 		}
 	}
 	
