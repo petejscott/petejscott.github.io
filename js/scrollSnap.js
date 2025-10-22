@@ -4,8 +4,11 @@
 	var obj = {};
 	obj.snappableElements = [];
 	obj.snapPositions = [];
+	obj.sectionHeights = [];
 	obj.currentViewport = null;
 	obj.scrollLock = false;
+	var lastScrollY = 0;
+	var scrollTimeout = null;
 	
 	function getScrollData()
 	{
@@ -74,14 +77,63 @@
 		}
 	}
 	
+	function isWithinSection(sectionIndex, scrollY)
+	{
+		var viewportHeight = window.innerHeight;
+		var sectionStart = obj.snapPositions[sectionIndex];
+		var sectionEnd = (sectionIndex < obj.snapPositions.length - 1) 
+			? obj.snapPositions[sectionIndex + 1] 
+			: document.documentElement.scrollHeight;
+		
+		// Check if we're well within the section (not at the edges)
+		var distanceFromTop = scrollY - sectionStart;
+		var distanceFromBottom = sectionEnd - scrollY - viewportHeight;
+		
+		// If we're more than 30% of viewport away from both edges, we're "within" the section
+		var edgeThreshold = viewportHeight * 0.3;
+		return distanceFromTop > edgeThreshold && distanceFromBottom > edgeThreshold;
+	}
+	
+	function shouldSnapSection(sectionIndex)
+	{
+		// Don't snap if the section is significantly taller than viewport
+		var viewportHeight = window.innerHeight;
+		var sectionHeight = obj.sectionHeights[sectionIndex];
+		
+		// If section is more than 1.5x viewport height, disable snapping while within it
+		return sectionHeight <= viewportHeight * 1.5;
+	}
+	
 	function scrollHandler(evt)
 	{
-		var targetViewport = getCurrentViewport();
-		if (targetViewport !== obj.currentViewport) 
-		{
-			snapToViewport(targetViewport);
-			animateViewport(targetViewport);
+		var currentY = getScrollData().y;
+		var currentSection = getCurrentViewport();
+		
+		// Clear any existing timeout
+		if (scrollTimeout) {
+			clearTimeout(scrollTimeout);
 		}
+		
+		// Check if we're within a tall section
+		if (!shouldSnapSection(currentSection) && isWithinSection(currentSection, currentY)) {
+			// Don't snap while actively scrolling within a tall section
+			obj.currentViewport = currentSection;
+			animateViewport(currentSection);
+			lastScrollY = currentY;
+			return;
+		}
+		
+		// Set a timeout to snap after user stops scrolling
+		scrollTimeout = setTimeout(function() {
+			var targetViewport = getCurrentViewport();
+			if (targetViewport !== obj.currentViewport) 
+			{
+				snapToViewport(targetViewport);
+				animateViewport(targetViewport);
+			}
+			lastScrollY = currentY;
+		}, 150); // Wait 150ms after scroll stops
+		
 		evt.preventDefault();
 	}
 	
@@ -129,6 +181,7 @@
 	{
 		obj.snappableElements = document.querySelectorAll('.snappable');
 		obj.snapPositions = [];
+		obj.sectionHeights = [];
 		
 		for (var i = 0; i < obj.snappableElements.length; i++) {
 			var element = obj.snappableElements[i];
@@ -136,6 +189,7 @@
 			var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 			var position = rect.top + scrollTop;
 			obj.snapPositions.push(position);
+			obj.sectionHeights.push(rect.height);
 		}
 		
 		// Update current viewport after recalculation
