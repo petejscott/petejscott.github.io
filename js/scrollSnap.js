@@ -100,18 +100,29 @@
 	function getCurrentViewport()
 	{
 		var currentY = getScrollData().y;
-		var closestIndex = 0;
-		var closestDistance = Math.abs(currentY - obj.snapPositions[0]);
+		var viewportHeight = window.innerHeight;
+		var viewportCenter = currentY + (viewportHeight / 2);
 		
-		for (var i = 1; i < obj.snapPositions.length; i++) {
-			var distance = Math.abs(currentY - obj.snapPositions[i]);
-			if (distance < closestDistance) {
-				closestDistance = distance;
-				closestIndex = i;
+		// Find which section we're currently in based on viewport center
+		for (var i = obj.snapPositions.length - 1; i >= 0; i--) {
+			// If the viewport center is past this snap position, we're in this section or later
+			if (viewportCenter >= obj.snapPositions[i]) {
+				// Check if we're closer to the next section
+				if (i < obj.snapPositions.length - 1) {
+					var distanceToThis = Math.abs(currentY - obj.snapPositions[i]);
+					var distanceToNext = Math.abs(currentY - obj.snapPositions[i + 1]);
+					
+					// Only snap to next if we're significantly closer to it (past 40% of the way)
+					var threshold = viewportHeight * 0.4;
+					if (currentY > obj.snapPositions[i] + threshold && distanceToNext < distanceToThis) {
+						return i + 1;
+					}
+				}
+				return i;
 			}
 		}
 		
-		return closestIndex;
+		return 0;
 	}
 	
 	function calculateSnapPositions()
