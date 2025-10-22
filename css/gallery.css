@@ -57,8 +57,8 @@ figcaption{
 .lightbox .content{
     max-width: 95vw;
     max-height: 95vh;
-    background: #fff;
-    border-radius: 8px;
+    background: transparent;
+    border-radius: 0;
     overflow: hidden;
     display:flex;
     flex-direction: column;
@@ -67,13 +67,16 @@ figcaption{
 }
 .lightbox img{ 
     max-width: 95vw; 
-    max-height: 95vh; 
+    max-height: 88vh; 
     width: auto;
     height: auto;
     display:block;
     object-fit: contain;
 }
-.lightbox .meta{ padding: .75rem; }
+.lightbox .meta{ 
+    padding: .75rem;
+    color: white;
+}
 .lightbox .close{
     position: absolute;
     top: 1rem;
