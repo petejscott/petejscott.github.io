@@ -1,30 +1,4 @@
 (function(){
-    // Photo data
-    const photos = [
-        {
-            fullImage: "images/sea-1600.jpg",
-            srcset: "images/sea-800.jpg 800w, images/sea-1200.jpg 1200w",
-            src: "images/sea-800.jpg",
-            alt: "Golden sunset over calm bay with a small sailboat on the horizon",
-            width: 1200,
-            height: 800,
-            title: "Sunset at the bay",
-            date: "2025-07-12",
-            dateDisplay: "July 12, 2025"
-        },
-        {
-            fullImage: "images/forest-1600.jpg",
-            srcset: "images/forest-800.jpg 800w, images/forest-1200.jpg 1200w",
-            src: "images/forest-800.jpg",
-            alt: "Person walking a shaded trail among tall redwood trees",
-            width: 1200,
-            height: 800,
-            title: "Misty redwood trail",
-            date: null,
-            dateDisplay: null
-        }
-    ];
-
     const gallery = document.querySelector('.gallery');
     const lightbox = document.getElementById('lightbox');
     const lbImg = document.getElementById('lb-img');
@@ -123,8 +97,45 @@
         });
     }
 
-    // Initialize gallery with photo data
-    populateGallery(photos);
+    /**
+     * Initializes the gallery by fetching data from GitHub
+     */
+    async function initGallery() {
+        try {
+            // Check if GithubGallery is available
+            if (typeof window.GithubGallery !== 'undefined') {
+                const photos = await window.GithubGallery.fetchGalleryData(
+                    'petejscott',  // owner
+                    'dreamtigers', // repo
+                    '',            // path (root)
+                    'main'         // branch
+                );
+                
+                if (photos && photos.length > 0) {
+                    populateGallery(photos);
+                } else {
+                    showErrorMessage('No photos found in the gallery.');
+                }
+            } else {
+                console.warn('GithubGallery not loaded');
+                showErrorMessage('Gallery could not be loaded.');
+            }
+        } catch (error) {
+            console.error('Failed to load gallery from GitHub:', error);
+            showErrorMessage('Unable to load gallery. Please try again later.');
+        }
+    }
+    
+    /**
+     * Displays an error message in the gallery
+     * @param {string} message - Error message to display
+     */
+    function showErrorMessage(message) {
+        gallery.innerHTML = `<li style="list-style: none; padding: 2rem; text-align: center; color: rgba(255,255,255,0.6);">${message}</li>`;
+    }
+
+    // Initialize gallery
+    initGallery();
 
     // Open
     gallery.addEventListener('click', (e) => {
