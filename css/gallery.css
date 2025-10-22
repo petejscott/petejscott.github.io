@@ -1,0 +1,79 @@
+.gallery{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: var(--gap);
+    list-style: none;
+    padding:0;
+    margin: 1rem 0;
+}
+
+.gallery-item{
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,.06);
+}
+
+.gallery-item button {
+    display: block;
+    padding: 0;
+    border: 0;
+    background: none;
+    width:100%;
+    text-align: left;
+    cursor: pointer;
+}
+
+.gallery-item img{
+    width:100%;
+    height: auto;
+    display:block;
+    vertical-align:middle;
+}
+
+figcaption{
+    padding: .5rem;
+    font-size: .9rem;
+    color:#333;
+}
+
+/* Lightbox */
+.lightbox{
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,.7);
+    z-index: 9999;
+    padding: 2rem;
+}
+.lightbox[aria-hidden="false"]{ display:flex; }
+.lightbox .content{
+    max-width: 95%;
+    max-height: 95%;
+    background: #fff;
+    border-radius: 8px;
+    overflow: auto;
+    display:flex;
+    flex-direction: column;
+}
+.lightbox img{ max-width:100%; height:auto; display:block; }
+.lightbox .meta{ padding: .75rem; }
+.lightbox .close{
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor:pointer;
+}
+
+/* Small accessibility focus styling */
+:focus{ outline: 3px solid Highlight; outline-offset: 2px; }
+
+@media (min-width:900px){
+    .gallery{ gap: 1rem; }
+}
