@@ -55,15 +55,24 @@ figcaption{
 }
 .lightbox[aria-hidden="false"]{ display:flex; }
 .lightbox .content{
-    max-width: 95%;
-    max-height: 95%;
+    max-width: 95vw;
+    max-height: 95vh;
     background: #fff;
     border-radius: 8px;
-    overflow: auto;
+    overflow: hidden;
     display:flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
-.lightbox img{ max-width:100%; height:auto; display:block; }
+.lightbox img{ 
+    max-width: 95vw; 
+    max-height: 95vh; 
+    width: auto;
+    height: auto;
+    display:block;
+    object-fit: contain;
+}
 .lightbox .meta{ padding: .75rem; }
 .lightbox .close{
     position: absolute;
