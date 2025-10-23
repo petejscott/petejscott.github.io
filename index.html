@@ -9,6 +9,18 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
 	<title>teknine.com</title>
 	
+	<script>
+		// Randomize backdrop images on page load
+		const narrowBackdrops = ['back1.jpg', 'back2.jpg', 'back3.jpg', 'back4.jpg'];
+		const wideBackdrops = ['back1.jpg', 'back2.jpg', 'back3.jpg', 'back4.jpg'];
+		
+		const randomNarrow = narrowBackdrops[Math.floor(Math.random() * narrowBackdrops.length)];
+		const randomWide = wideBackdrops[Math.floor(Math.random() * wideBackdrops.length)];
+		
+		document.documentElement.style.setProperty('--backdrop-narrow', `url('img/backdrop/narrow/${randomNarrow}')`);
+		document.documentElement.style.setProperty('--backdrop-wide', `url('img/backdrop/wide/${randomWide}')`);
+	</script>
+	
 	<link href='http://fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
 	<style>
 		body { 
@@ -32,7 +44,7 @@
 			left: 0;
 			right: 0;
 			bottom: 0;
-			background-image: url('img/backdrop/narrow/back2.jpg');
+			background-image: var(--backdrop-narrow);
 			background-size: cover;
 			background-position: center;
 			background-repeat: no-repeat;
@@ -41,7 +53,7 @@
 		}
 		@media screen and (min-width: 1024px) {
 			hgroup h1, hgroup h2 { font-size: 4rem; }
-			.backdrop::before { background-image: url('img/backdrop/wide/back1.jpg'); }
+			.backdrop::before { background-image: var(--backdrop-wide); }
 		}
 		.backdrop::after {
 			content: '';
