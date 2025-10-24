@@ -11,14 +11,27 @@
 	
 	<script>
 		// Randomize backdrop images on page load
-		const narrowBackdrops = ['back1.jpg', 'back2.jpg', 'back3.jpg', 'back4.jpg'];
-		const wideBackdrops = ['back1.jpg', 'back2.jpg', 'back3.jpg', 'back4.jpg'];
+		const narrowBackdrops = [
+			{ filename: 'back1.jpg', position: 'center' },
+			{ filename: 'back2.jpg', position: 'center' },
+			{ filename: 'back3.jpg', position: 'center' },
+			{ filename: 'back4.jpg', position: 'center' },
+			{ filename: 'back5.jpg', position: 'center' }
+		];
+		const wideBackdrops = [
+			{ filename: 'back1.jpg', position: 'center' },
+			{ filename: 'back2.jpg', position: 'center' },
+			{ filename: 'back3.jpg', position: 'center bottom' },
+			{ filename: 'back4.jpg', position: 'center' }
+		];
 		
 		const randomNarrow = narrowBackdrops[Math.floor(Math.random() * narrowBackdrops.length)];
 		const randomWide = wideBackdrops[Math.floor(Math.random() * wideBackdrops.length)];
 		
-		document.documentElement.style.setProperty('--backdrop-narrow', `url('img/backdrop/narrow/${randomNarrow}')`);
-		document.documentElement.style.setProperty('--backdrop-wide', `url('img/backdrop/wide/${randomWide}')`);
+		document.documentElement.style.setProperty('--backdrop-narrow', `url('img/backdrop/narrow/${randomNarrow.filename}')`);
+		document.documentElement.style.setProperty('--backdrop-narrow-position', randomNarrow.position);
+		document.documentElement.style.setProperty('--backdrop-wide', `url('img/backdrop/wide/${randomWide.filename}')`);
+		document.documentElement.style.setProperty('--backdrop-wide-position', randomWide.position);
 	</script>
 	
 	<link href='http://fonts.googleapis.com/css?family=Roboto:400,300' rel='stylesheet' type='text/css'>
@@ -46,14 +59,17 @@
 			bottom: 0;
 			background-image: var(--backdrop-narrow);
 			background-size: cover;
-			background-position: center;
+			background-position: var(--backdrop-narrow-position);
 			background-repeat: no-repeat;
 			opacity: 0.2;
 			z-index: -2;
 		}
 		@media screen and (min-width: 1024px) {
 			hgroup h1, hgroup h2 { font-size: 4rem; }
-			.backdrop::before { background-image: var(--backdrop-wide); }
+			.backdrop::before { 
+				background-image: var(--backdrop-wide);
+				background-position: var(--backdrop-wide-position);
+			}
 		}
 		.backdrop::after {
 			content: '';
