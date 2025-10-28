@@ -65,7 +65,7 @@
 	function animateSection(section)
 	{
 		var body = document.querySelector("body");
-		var colorClasses = ["blue", "yellow", "green", "bluegreen"];
+		var colorClasses = ["color1", "color2", "color3", "color4"];
 		
 		colorClasses.forEach(function(colorClass) {
 			body.classList.remove(colorClass);
