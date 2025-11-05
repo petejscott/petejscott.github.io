@@ -64,22 +64,38 @@
 			opacity: 0.2;
 			z-index: -2;
 		}
+		.backdrop::after {
+			content: '1,977';
+			color: rgba(255, 255, 255, 0.05);
+			font-size: 8rem;
+			font-weight: 300;
+			pointer-events: none;
+			user-select: none;
+			position: fixed;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background-color: rgba(0, 0, 0, 0.25);
+			z-index: -1;
+			display: flex;
+			align-items: flex-end;
+			justify-content: flex-end;
+			padding: 0 2rem 15vh 0;
+			box-sizing: border-box;
+		}
 		@media screen and (min-width: 1024px) {
 			hgroup h1, hgroup h2 { font-size: 4rem; }
 			.backdrop::before { 
 				background-image: var(--backdrop-wide);
 				background-position: var(--backdrop-wide-position);
 			}
-		}
-		.backdrop::after {
-			content: '';
-			position: fixed;
-			top: 0;
-			left: 0;
-			right: 0;
-			bottom: 0;
-			background-color: rgba(0, 0, 0, 0.5);
-			z-index: -1;
+			.backdrop::after { 
+				font-size: 24rem; 
+				padding-bottom: 0;
+				padding-top: 40vh;
+				align-items: flex-start;
+			}
 		}
 		main, article { 
 			gap: 16vh;
@@ -181,7 +197,7 @@
 		<article id="photos" class="snappable">
 			<header>
 				<h1>Dreamtigers</h1>
-				<h2>Still wrapped in white sheets and salted sweat</h2>
+				<h2></h2>
 			</header>
 			<section aria-label="Photo gallery" id="gallery-section">
 				<ul class="gallery" role="list"></ul>
@@ -197,7 +213,7 @@
 		<article id="writing" class="snappable">
 			<header>
 				<h1>Mutations</h1>
-				<h2>The disinterested applause of group therapy</h2>
+				<h2></h2>
 			</header>
 			<section>
 				<p>
